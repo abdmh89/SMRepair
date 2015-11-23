@@ -1,33 +1,110 @@
 package simModel;
 
+//import java.util.ArrayList;
+
 class UDPs 
 {
-	ModelName model;  // for accessing the clock
+	
+	SMRepair model;  // for accessing the clock
 	
 	// Constructor
-	protected UDPs(ModelName model) { this.model = model; }
+	protected UDPs(SMRepair smRepair) 
+	{ 
+		this.model = smRepair; 
+	}
 
-	// Translate User Defined Procedures into methods
-    /*-------------------------------------------------
-	                       Example
-	    protected int ClerkReadyToCheckOut()
-        {
-        	int num = 0;
-        	Clerk checker;
-        	while(num < model.NumClerks)
-        	{
-        		checker = model.Clerks[num];
-        		if((checker.currentstatus == Clerk.status.READYCHECKOUT)  && checker.list.size() != 0)
-        		{return num;}
-        		num +=1;
-        	}
-        	return -1;
-        }
-	------------------------------------------------------------*/
+
+	protected int[] getAvailableEmployee()
+	{
+		int out[] = new int[2];
+
+		boolean found = false;
+		
+		for(int i = 0;i<model.numClassAEmployees;i++)
+		{
+			if(model.employees[Constants.CLASSA][i].status == "AVAILABLE")
+			{
+				found = true;
+				out[0] = Constants.CLASSA;
+				out[1] = i;
+			}
+		}
+		
+		if(!found)
+		{
+			for(int j = 0;j<model.numClassBEmployees;j++)
+			{
+				if(model.employees[Constants.CLASSB][j].status == "AVAILABLE")
+				{
+					found = true;
+					out[0] = Constants.CLASSB;
+					out[1] = j;
+				}
+			}
+			
+		}
+		
+		return out;
+	}
 	
-	public int getScaledClock(){
-		int days = model.getClock()/1440;
-		return model.getClock() - days*1440;
+	protected Call getNextCall(int classId)
+	{
+		Call icCall = null;
+		
+		return icCall;
+	}
+	
+	protected int [] getEmployeeForLunch()
+	{
+		int id[] = new int[2];
+
+		boolean found = false;
+		
+		for(int i = 0;i<model.numClassAEmployees;i++)
+		{
+			if(model.employees[Constants.CLASSA][i].status == "AVAILABLE" &&
+			   model.employees[Constants.CLASSA][i].hadLunch == false &&
+			   model.udp.getScaledClock()>= 210 &&
+			   model.udp.getScaledClock()<= 330)
+			{
+				found = true;
+				id[0] = Constants.CLASSA;
+				id[1] = i;
+				break;
+			}
+		}
+		
+		if(!found)
+		{
+			for(int j = 0;j<model.numClassBEmployees;j++)
+			{
+				if(model.employees[Constants.CLASSB][j].status == "AVAILABLE" &&
+				   model.employees[Constants.CLASSB][j].hadLunch == false &&
+				   model.udp.getScaledClock()>= 210 &&
+				   model.udp.getScaledClock()<= 330)
+				{
+					found = true;
+					id[0] = Constants.CLASSB;
+					id[1] = j;
+					break;
+				}
+			}
+			
+		}
+		
+		return id;
+	}
+	
+	public int getScaledClock()
+	{
+		int days = (int)model.getClock()/1440;
+		return (int)model.getClock() - days*1440;
+	}
+	
+	public int getScaledTime(int time)
+	{
+		int days = time/1440;
+		return time - days*1440;
 	}
 	
 }
