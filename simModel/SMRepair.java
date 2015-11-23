@@ -4,22 +4,30 @@ import simulationModelling.AOSimulationModel;
 import simulationModelling.Behaviour;
 import simulationModelling.SequelActivity;
 
-//
-// The Simulation model Class
 public class SMRepair extends AOSimulationModel
 {
+
 	// Constants available from Constants class
 	/* Parameter */
-        // Define the parameters
+    protected int numClassAEmployees;
+    protected int numClassBEmployees;
 
 	/*-------------Entity Data Structures-------------------*/
 	/* Group and Queue Entities */
 	// Define the reference variables to the various 
 	// entities with scope Set and Unary
-	// Objects can be created here or in the Initialise Action
-
+	// Objects can be created here or in the Initialize Action
+    
+    Employee [][] employees;
+    
+    ServiceRequests [] queues;
+    
 	/* Input Variables */
-	// Define any Independent Input Varaibles here
+	// Define any Independent Input Variables here
+    protected CallType1000 callType1000;
+    protected CallType2000 callType2000;
+    protected CallType3000 callType3000;
+    protected CallType4000 callType4000;
 	
 	// References to RVP and DVP objects
 	protected RVPs rvp;  // Reference to rvp object - object created in constructor
@@ -34,22 +42,34 @@ public class SMRepair extends AOSimulationModel
 
 
 	// Constructor
-	public ModelName(double t0time, double tftime, /*define other args,*/ Seeds sd)
+	public SMRepair(double t0time, double tftime, /*define other args,*/ Seeds sd)
 	{
-		// Initialise parameters here
+		// Initialize parameters here
+	    numClassAEmployees = 1;
+	    numClassBEmployees = 1;
 		
 		// Create RVP object with given seed
 		rvp = new RVPs(this,sd);
 		
-		// rgCounter and qCustLine objects created in Initalise Action
-		
-		// Initialise the simulation model
-		initAOSimulModel(t0time,tftime);   
+		// Initialize the simulation model
+		initAOSimulModel(t0time,tftime);
 
-		     // Schedule the first arrivals and employee scheduling
-		Initialise init = new Initialise(this);
+		// Schedule the first arrivals and employee scheduling
+		Initialize init = new Initialize(this);
 		scheduleAction(init);  // Should always be first one scheduled.
-		// Schedule other scheduled actions and acitvities here
+		// Schedule other scheduled actions and activities here
+		CallType1000 callType1000 = new CallType1000(this);
+		scheduleAction(callType1000);
+		
+		CallType2000 callType2000 = new CallType2000(this);
+		scheduleAction(callType2000);
+		
+		CallType3000 callType3000 = new CallType3000(this);
+		scheduleAction(callType3000);
+		
+		CallType4000 callType4000 = new CallType4000(this);
+		scheduleAction(callType4000);
+		
 	}
 
 	/************  Implementation of Data Modules***********/	
@@ -58,7 +78,7 @@ public class SMRepair extends AOSimulationModel
 	 */
 	protected void testPreconditions(Behaviour behObj)
 	{
-		reschedule (behObj);
+		reschedule(behObj);
 		// Check preconditions of Conditional Activities
 
 		// Check preconditions of Interruptions in Extended Activities
@@ -80,8 +100,6 @@ public class SMRepair extends AOSimulationModel
 	{
 		seqAct.startingEvent();
 		scheduleActivity(seqAct);
-	}	
+	}
 
 }
-
-
