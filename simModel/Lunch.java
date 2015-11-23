@@ -1,35 +1,46 @@
+package simModel;
+
 import simulationModelling.ConditionalActivity;
 
-public class Lunch extends ConditionalActivity{
+public class Lunch extends ConditionalActivity
+{
 
-SMRepair model;
-int classId;
-int employeeId;
-public Lunch(SMRepair model){
-	this.model = model;
-}
+	SMRepair model;
+	
+	private int [] id;
 
-protected static boolean precondition(SMRepair model){
-	if(UDP.getEmployeeForLunch() != null){
-		return true;
-		}
-	return false;
+	public Lunch(SMRepair model)
+	{
+		this.model = model;
 	}
 
-public void startingEvent(){
-	String id = UDP.getEmployeeForLunch();
-	String[] splitId = id.split(" ");
-	classId = Integer.parseInt(splitId[0]);
-	employeeId = Integer.parseInt(splitId[1]);
-	model.rEmployee[classId][employeeId].status = "Lunch";
-}
-protected double duration(){
-	return model.const.LunchDuration;
-}
+	protected static boolean precondition(SMRepair model)
+	{
+		boolean out = false;
+		
+		if(model.udp.getEmployeeForLunch() != null)
+		{
+			out = true;
+		}
+		
+		return out;
+	}
 
-protected void terminatingEvent(){
-	model.rEmployee[classId][employeeId].status = "Available";
-	model.rEmployee[classId][employeeId].hadLunch = True;
-}
+	public void startingEvent()
+	{
+		id = model.udp.getEmployeeForLunch();
+	
+		model.employees[id[0]][id[1]].status = "LUNCH";
+	}
+	
+	protected double duration()
+	{
+		return Constants.LUNCH_DURATION;
+	}
+
+	protected void terminatingEvent()
+	{
+		model.employees[id[0]][id[1]].status = "AVAILABLE";	
+	}
 
 }
