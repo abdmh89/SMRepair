@@ -2,12 +2,15 @@ package simModel;
 
 import simulationModelling.ScheduledAction;
 
-class Initialise extends ScheduledAction
+class Initialize extends ScheduledAction
 {
-	ModelName model;
+	SMRepair model;
 	
 	// Constructor
-	protected Initialise(ModelName model) { this.model = model; }
+	protected Initialize(SMRepair smRepair) 
+	{ 
+		this.model = smRepair; 
+	}
 
 	double [] ts = { 0.0, -1.0 }; // -1.0 ends scheduling
 	int tsix = 0;  // set index to first entry.
@@ -18,8 +21,15 @@ class Initialise extends ScheduledAction
 
 	protected void actionEvent() 
 	{
-		// System Initialisation
-                // Add initilisation instructions 
+		
+		// System Initialization
+	    model.employees = new Employee[2][];
+	    
+	    model.employees[Constants.CLASSA] = new Employee[model.numClassAEmployees];
+	    model.employees[Constants.CLASSB] = new Employee[model.numClassBEmployees];
+	    
+	    model.queues = new ServiceRequests[8];
+        
 	}
 	
 
