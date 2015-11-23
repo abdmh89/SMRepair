@@ -1,0 +1,9 @@
+package simModel;
+
+public class Call
+{
+	protected String contractType;
+	protected int timeRequested;
+	protected int arrivalTime;
+	protected String equipmentType;
+}
