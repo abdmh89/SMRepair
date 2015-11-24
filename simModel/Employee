@@ -1,0 +1,9 @@
+package simModel;
+
+public class Employee
+{
+	protected String status = "AVAILABLE";
+	protected double numOvertimeHours = 0.0;
+	protected Call assignedTo = null;
+	protected boolean hadLunch = false;
+}
