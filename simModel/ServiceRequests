@@ -1,0 +1,25 @@
+package simModel;
+
+import java.util.ArrayList;
+
+public class ServiceRequests
+{
+	protected ArrayList<Call> list = new ArrayList<Call>();
+	
+	// Required methods to manipulate the group
+	protected void spInsertQueue(Call icCall) 
+	{	
+		list.add(icCall); 
+	}
+	
+	protected Call spRemoveQueue(Call icCall) 
+	{ 
+		list.remove(icCall);
+		return icCall; 
+	}
+	
+	protected int getSize() 
+	{
+		return list.size(); 
+	}
+}
