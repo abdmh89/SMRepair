@@ -1,0 +1,36 @@
+package simModel;
+
+import simulationModelling.ScheduledAction;
+
+class CallType1000 extends ScheduledAction
+{
+	SMRepair model;
+	
+	// Constructor
+	protected CallType1000(SMRepair smRepair) 
+	{ 
+		this.model = smRepair; 
+	}
+
+	protected double timeSequence() 
+	{
+		return model.rvp.duType1000CallArrival();
+	}
+
+	protected void actionEvent() 
+	{
+		Call icCall = new Call();
+		
+		icCall.timeRequested = (int)model.getClock();
+		
+		icCall.contractType = model.rvp.uType1000Contract();
+		
+		icCall.equipmentType = "TYPE1000";
+		
+		if(icCall.contractType == "BASIC")
+			model.queues[Constants.B1000].spInsertQueue(icCall);
+		else
+			model.queues[Constants.P1000].spInsertQueue(icCall);
+	}
+	
+}
