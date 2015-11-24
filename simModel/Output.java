@@ -2,9 +2,18 @@ package simModel;
 
 class Output 
 {
-	ModelName model;
+	SMRepair model;
+	public int servicedBasicCalls;
+	public int numSatisfiedBasicCalls;
+	public double basicCustomerSatisfaction;
+	public int servicedPremiumCalls;
+	public int numSatisfiedPremiumCalls;
+	public double premiumCustomerSatisfaction;
 	
-	protected Output(ModelName md) { model = md; }
+	protected Output(SMRepair smRepair) 
+	{ 
+		model = smRepair; 
+	}
     // Use OutputSequence class to define Trajectory and Sample Sequences
     // Trajectory Sequences
 
