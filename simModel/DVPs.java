@@ -2,10 +2,13 @@ package simModel;
 
 class DVPs 
 {
-	ModelName model;  // for accessing the clock
+	SMRepair model;  // for accessing the clock
 	
 	// Constructor
-	protected DVPs(ModelName model) { this.model = model; }
+	protected DVPs(SMRepair smRepair) 
+	{ 
+		this.model = smRepair; 
+	}
 
 	// Translate deterministic value procedures into methods
         /* -------------------------------------------------
